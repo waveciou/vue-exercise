@@ -1,0 +1,249 @@
+@charset "UTF-8";
+
+$color-black: #1a1c1d;
+$color-white: #ffffff;
+$color-gray: #f2f2f2;
+$color-gray-dark: #e5e5e5;
+$color-blue: #06a3e9;
+$color-green: #53a946;
+
+body {
+    font-size: 16px;
+    line-height: 1.4em;
+    letter-spacing: 0.5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -o-overflow-scrolling: touch;
+    background-color: $color-gray;
+    color: $color-black;
+    *{
+        font-family: 'Merriweather', serif;
+    }
+}
+
+.wrap {
+    max-width: 600px;
+    width: calc(100% - 40px);
+    margin: auto;
+}
+
+.btn {
+    display: block;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    outline: none;
+    cursor: pointer;
+}
+
+.row{
+    display: flex;
+}
+
+h1{
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1.4em;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+input[type="text"] {
+    width: 100%;
+    height: 45px;
+    min-width: 200px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 10px;
+    background-color: $color-white;
+}
+
+#todolist {
+    .todolist-title {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 1em 0px;
+        .fieldset {
+            width: 100%;
+            height: 45px;
+            position: relative;
+
+            input[type="text"] {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                padding-right: 50px;
+            }
+
+            $btnadd-size: 30px;
+
+            .btn-add {
+                width: $btnadd-size;
+                height: $btnadd-size;
+                position: absolute;
+                top: calc((100% - #{$btnadd-size})/2);
+                right: 10px;
+                font-size: 0rem;
+                &::before{
+                    font-family: 'FontAwesome';
+                    font-size: 1.5rem;
+                }
+            }
+        }
+    }
+
+    .navtab {
+        .navtab-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1em;
+
+            .navtab-item {
+                margin: 5px;
+
+                .navtab-btn {
+                    display: inline-block;
+                    font-weight: bold;
+                    background-color: $color-gray-dark;
+                    color: $color-black;
+                    padding: 10px 25px;
+                    text-align: center;
+                    transition: all 0.3s ease;
+
+                    &.current {
+                        background-color: $color-black;
+                        color: $color-white;
+                    }
+                }
+            }
+        }
+    }
+
+    .todolist-list {
+        .todolist-item {
+            margin-bottom: 1em;
+            box-shadow: 2px 2px 4px 0px #ccc;
+            .d-item {
+                width: 100%;
+                height: 55px;
+                position: relative;
+            }
+
+            .item-dem {
+                .fieldset {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0px;
+                    top: 0px;
+                    display: flex;
+                    align-items: center;
+                    background-color: $color-white;
+                    input[type="checkbox"] {
+                        display: none;
+                    }
+
+                    label {
+                        width: 100%;
+                        height: 100%;
+                        line-height: 35px;
+                        display: block;
+                        padding: 10px;
+                        padding-left: 45px;
+                        padding-right: 50px;
+                        position: relative;
+                        cursor: pointer;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+
+                        &::before {
+                            content: '';
+                            font-family: 'FontAwesome';
+                            width: 20px;
+                            height: 20px;
+                            display: block;
+                            border-width: 2px;
+                            border-color: $color-black;
+                            border-style: solid;
+                            border-radius: 3px;
+                            box-sizing: border-box;
+                            position: absolute;
+                            top: calc((100% - 20px)/2);
+                            left: 15px;
+                            line-height: 1em;
+                        }
+                    }
+
+                    input[type="checkbox"]:checked + label {
+                        &::before {
+                            content: '\f00c';
+                            background-color: $color-blue;
+                            color: $color-white;
+                            border-color: transparent;
+                        }
+                    }
+                }
+
+                .btn-remove {
+                    width: 30px;
+                    height: 30px;
+                    position: absolute;
+                    right: 10px;
+                    top: calc((100% - 30px)/2);
+                    font-family: 'FontAwesome';
+                    font-size: 1.5rem;
+                }
+            }
+
+            .item-edit {
+                input[type="text"] {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0px;
+                    top: 0px;
+                    padding-right: 80px;
+                }
+
+                .btn-group{
+                    position: absolute;
+                    right: 10px;
+                    top: calc((100% - 30px)/2);
+                    display: flex;
+                    .btn{
+                        width: 30px;
+                        height: 30px;
+                        font-family: 'FontAwesome';
+                        font-size: 1.5rem;
+                        color: $color-black;
+                    }
+                }
+            }
+        }
+    }
+
+    .todolist-underrow{
+        border-top-width: 1px;
+        border-top-color: $color-gray-dark;
+        border-top-style: solid;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1em 0px;
+        a{
+            display: block;
+            padding: 10px 20px;
+            background-color: $color-gray-dark;
+            &:hover{
+                background-color: $color-black;
+                color: $color-white;
+            }
+        }
+    }
+}
