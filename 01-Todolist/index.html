@@ -28,14 +28,13 @@
             <div class="navtab" v-if="todoList.length > 0">
                 <ul class="navtab-list">
                     <li class="navtab-item">
-                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'all'}" @click="visibility = 'all'">ALL</a>
+                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'all'}" @click="visibility = 'all'">全部</a>
                     </li>
                     <li class="navtab-item">
-                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'active'}" @click="visibility = 'active'">IN
-                            PROGRESS</a>
+                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'active'}" @click="visibility = 'active'">未完成</a>
                     </li>
                     <li class="navtab-item">
-                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'complete'}" @click="visibility = 'complete'">COMPLETED</a>
+                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'complete'}" @click="visibility = 'complete'">已完成</a>
                     </li>
                 </ul>
                 <ul class="todolist-list">
@@ -60,7 +59,7 @@
 
             <div class="row todolist-underrow" v-if="todoList.length > 0">
                 <span>還有 {{ filterActiveTodoList }} 筆任務未完成</span>
-                <a href="javascript:;" @click="removeAllTodoItem()">CLEAR ALL</a>
+                <a href="javascript:;" @click="removeAllTodoItem()">清除全部</a>
             </div>
 
         </div>
