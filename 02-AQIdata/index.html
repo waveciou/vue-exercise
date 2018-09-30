@@ -141,33 +141,33 @@
 
                     function getAQIdata(vm) {
 
-                        const apiurl_1 = 'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
+                        // const apiurl_1 = 'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
 
-                        $.ajax({
-                            url: apiurl_1,
-                            type: 'get',
-                            dataType: 'jsonp',
-                            beforeSend: function () {
-                                vm.ajaxStatus = 'is-loading';
-                            },
-                            success: function (data) {
-                                vm.dataList = data;
-                                vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus = 'is-nothing';
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {
-                                vm.ajaxStatus = 'is-error';
-                            }
-                        });
-
-                        // const apiurl_2 = 'https://opendata2.epa.gov.tw/AQI.json';
-
-                        // vm.ajaxStatus = 'is-loading';
-                        // $.get(apiurl_2).then(function (response) {
-                        //     app.dataList = response;
-                        //     app.dataList.length ? app.ajaxStatus = 'is-success' : app.ajaxStatus = 'is-nothing';
-                        // }, function(){
-                        //     app.ajaxStatus = 'is-error';
+                        // $.ajax({
+                        //     url: apiurl_1,
+                        //     type: 'get',
+                        //     dataType: 'jsonp',
+                        //     beforeSend: function () {
+                        //         vm.ajaxStatus = 'is-loading';
+                        //     },
+                        //     success: function (data) {
+                        //         vm.dataList = data;
+                        //         vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus = 'is-nothing';
+                        //     },
+                        //     error: function (xhr, ajaxOptions, thrownError) {
+                        //         vm.ajaxStatus = 'is-error';
+                        //     }
                         // });
+
+                        const apiurl_2 = 'https://opendata2.epa.gov.tw/AQI.json';
+
+                        vm.ajaxStatus = 'is-loading';
+                        $.get(apiurl_2).then(function (response) {
+                            app.dataList = response;
+                            app.dataList.length ? app.ajaxStatus = 'is-success' : app.ajaxStatus = 'is-nothing';
+                        }, function(){
+                            app.ajaxStatus = 'is-error';
+                        });
                     }
 
                     getTownData();
