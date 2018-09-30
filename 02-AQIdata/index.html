@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://waveciou.github.io/resetcss/reset.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="css/style.min.css">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
 <body>
@@ -49,7 +48,8 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
     <script>
         (function () {
-            const apiurl = 'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
+            // const apiurl = 'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
+            const apiurl = 'https://opendata2.epa.gov.tw/AQI.json';
             const app = new Vue({
                 el: '#aqidatalist',
                 data: {
