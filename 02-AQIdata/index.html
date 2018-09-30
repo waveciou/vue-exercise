@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://waveciou.github.io/resetcss/reset.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="css/style.min.css">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
 <body>
@@ -143,16 +144,16 @@
                             type: 'get',
                             dataType: 'jsonp',
                             beforeSend: function(){
-                                console.log('AJAX: before send');
+                                // console.log('AJAX: before send');
                                 vm.ajaxStatus = 'is-loading';
                             },
                             success: function (data) {
-                                console.log('AJAX: success');
+                                // console.log('AJAX: success');
                                 vm.dataList = data;
                                 vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus = 'is-nothing';
                             },
                             error: function (xhr, ajaxOptions, thrownError) {
-                                console.log('AJAX: error');
+                                // console.log('AJAX: error');
                                 vm.ajaxStatus = 'is-error';
                             }
                         });
@@ -163,7 +164,7 @@
 
                     setInterval(function(){
                         getAQIdata(this);
-                    }, 3000);
+                    }, 30000);
                 }
             })
 
