@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-hant-tw">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue Exercise - 02. AQI data list</title>
+    <link rel="stylesheet" href="https://waveciou.github.io/resetcss/reset.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="css/style.min.css">
+</head>
+
+<body>
+
+    <div class="wrap">
+        <div id="aqidatalist">
+
+            <h1>TAIWAN AQI DATA</h1>
+
+            <div class="fieldset">
+                <select id="data-select" v-model="selectValue">
+                    <option v-for="(item, key) in selectList" :value="item.value">{{ item.name }}</option>
+                </select>
+            </div>
+
+            <p class="message is-nothing" v-if="ajaxStatus === 'is-nothing'">無資料</p>
+            <p class="message is-loading" v-if="ajaxStatus === 'is-loading'">資料載入中....</p>
+            <p class="message is-error" v-if="ajaxStatus === 'is-error'">資料載入失敗</p>
+
+            <ul id="data-list" v-if="ajaxStatus === 'is-success'">
+                <li v-for="(item, key) in filterDataList">
+                    <div class="item" :class="setLevelClass(item)">
+                        <div class="item__wrap">
+                            <div class="item__name">
+                                <span>{{ item.County }}</span>{{ item.SiteName }}
+                            </div>
+                            <div class="item__aqi">{{ item.AQI }}</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
+    <script>
+        (function () {
+            const apiurl = 'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
+            const app = new Vue({
+                el: '#aqidatalist',
+                data: {
+                    selectList: [],
+                    selectValue: '全部',
+                    dataList: [],
+                    ajaxStatus: ''
+                },
+                methods: {
+                    setLevelClass: function (item) {
+                        let value = item.AQI;
+                        let number = Math.floor(Number(value) / 50);
+                        let className = '';
+
+                        if (number <= 0) {
+                            number = 0;
+                        } else if (number >= 4 && number < 6) {
+                            number = 4;
+                        } else if (number >= 6) {
+                            number = 5;
+                        }
+
+                        switch (number) {
+                            case 0:
+                                className = 'aqi-status-1';
+                                break;
+                            case 1:
+                                className = 'aqi-status-2';
+                                break;
+                            case 2:
+                                className = 'aqi-status-3';
+                                break;
+                            case 3:
+                                className = 'aqi-status-4';
+                                break;
+                            case 4:
+                                className = 'aqi-status-5';
+                                break;
+                            case 5:
+                                className = 'aqi-status-6';
+                                break;
+                        }
+                        return className;
+                    }
+                },
+                computed: {
+                    filterDataList: function () {
+                        let value = this.selectValue;
+                        let newDataList = [];
+
+                        if (value == '全部' || value == '') {
+                            this.dataList.forEach(function (item) {
+                                if (!item.AQI === false) {
+                                    newDataList.push(item);
+                                }
+                            });
+                        } else {
+                            this.dataList.forEach(function (item) {
+                                if (item.County === value) {
+                                    if (!item.AQI === false) {
+                                        newDataList.push(item);
+                                    }
+                                }
+                            });
+                        }
+
+                        newDataList.length ? app.ajaxStatus = 'is-success' : app.ajaxStatus = 'is-nothing';
+
+                        //依照AQI指數排列
+                        newDataList.sort(function (a, b) {return b.AQI - a.AQI;});
+
+                        return newDataList
+                    }
+                },
+                created() {
+                    
+                    function getTownData() {
+                        $.ajax({
+                            url: 'data/town.json',
+                            type: 'get',
+                            dataType: 'json',
+                            async: true,
+                            success: (data) => {
+                                app.selectList = data;
+                            }
+                        })
+                    }
+
+                    function getAQIdata(vm) {
+                        $.ajax({
+                            url: apiurl,
+                            type: 'get',
+                            dataType: 'jsonp',
+                            beforeSend: function(){
+                                console.log('AJAX: before send');
+                                vm.ajaxStatus = 'is-loading';
+                            },
+                            success: function (data) {
+                                console.log('AJAX: success');
+                                vm.dataList = data;
+                                vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus = 'is-nothing';
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                console.log('AJAX: error');
+                                vm.ajaxStatus = 'is-error';
+                            }
+                        });
+                    }
+                    
+                    getTownData();
+                    getAQIdata(this);
+
+                    setInterval(function(){
+                        getAQIdata(this);
+                    }, 3000);
+                }
+            })
+
+        })()
+
+    </script>
+
+</body>
+
+</html>
