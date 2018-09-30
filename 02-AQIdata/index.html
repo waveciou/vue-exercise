@@ -116,16 +116,19 @@
                             });
                         }
 
-                        newDataList.length ? app.ajaxStatus = 'is-success' : app.ajaxStatus = 'is-nothing';
+                        newDataList.length ? app.ajaxStatus = 'is-success' : app.ajaxStatus =
+                            'is-nothing';
 
                         //依照AQI指數排列
-                        newDataList.sort(function (a, b) {return b.AQI - a.AQI;});
+                        newDataList.sort(function (a, b) {
+                            return b.AQI - a.AQI;
+                        });
 
                         return newDataList
                     }
                 },
                 created() {
-                    
+
                     function getTownData() {
                         $.ajax({
                             url: 'data/town.json',
@@ -139,32 +142,40 @@
                     }
 
                     function getAQIdata(vm) {
-                        $.ajax({
-                            url: apiurl,
-                            type: 'get',
-                            dataType: 'json',
-                            beforeSend: function(){
-                                // console.log('AJAX: before send');
-                                vm.ajaxStatus = 'is-loading';
-                            },
-                            success: function (data) {
-                                // console.log('AJAX: success');
-                                vm.dataList = data;
-                                vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus = 'is-nothing';
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {
-                                // console.log('AJAX: error');
-                                vm.ajaxStatus = 'is-error';
-                            }
+
+                        // $.ajax({
+                        //     url: apiurl,
+                        //     type: 'get',
+                        //     dataType: 'json',
+                        //     beforeSend: function () {
+                        //         vm.ajaxStatus = 'is-loading';
+                        //     },
+                        //     success: function (data) {
+                        //         vm.dataList = data;
+                        //         vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus =
+                        //             'is-nothing';
+                        //     },
+                        //     error: function (xhr, ajaxOptions, thrownError) {
+                        //         vm.ajaxStatus = 'is-error';
+                        //     }
+                        // });
+
+                        vm.ajaxStatus = 'is-loading';
+
+                        $.get(apiurl).then(function (response) {
+                            app.dataList = response;
+                            app.dataList.length ? app.ajaxStatus = 'is-success' : app.ajaxStatus = 'is-nothing';
+                        }, function(){
+                            app.ajaxStatus = 'is-error';
                         });
                     }
-                    
+
                     getTownData();
                     getAQIdata(this);
 
-                    setInterval(function(){
-                        getAQIdata(this);
-                    }, 30000);
+                    // setInterval(function () {
+                    //     getAQIdata(this);
+                    // }, 30000);
                 }
             })
 
