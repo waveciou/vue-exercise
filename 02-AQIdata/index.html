@@ -44,8 +44,8 @@
         </div>
     </div>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js'></script>
     <script>
         (function () {
             const app = new Vue({
@@ -127,50 +127,36 @@
                 },
                 created() {
 
-                    function getTownData() {
-                        $.ajax({
-                            url: 'data/town.json',
-                            type: 'get',
-                            dataType: 'json',
-                            async: true,
-                            success: (data) => {
-                                app.selectList = data;
-                            }
-                        })
+                    function getTownData(vm) {
+                        let gettown = axios.get('data/town.json').then((data) => {
+                            vm.selectList = data.data;
+                        });
                     }
 
                     function getAQIdata(vm) {
 
-                        // const apiurl_1 = 'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
-
-                        // $.ajax({
-                        //     url: apiurl_1,
-                        //     type: 'get',
-                        //     dataType: 'jsonp',
-                        //     beforeSend: function () {
-                        //         vm.ajaxStatus = 'is-loading';
-                        //     },
-                        //     success: function (data) {
-                        //         vm.dataList = data;
-                        //         vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus = 'is-nothing';
-                        //     },
-                        //     error: function (xhr, ajaxOptions, thrownError) {
-                        //         vm.ajaxStatus = 'is-error';
-                        //     }
-                        // });
-
+                        const apiurl_1 =
+                            'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
                         const apiurl_2 = 'https://opendata2.epa.gov.tw/AQI.json';
 
-                        vm.ajaxStatus = 'is-loading';
-                        $.get(apiurl_2).then(function (response) {
-                            app.dataList = response;
-                            app.dataList.length ? app.ajaxStatus = 'is-success' : app.ajaxStatus = 'is-nothing';
-                        }, function(){
-                            app.ajaxStatus = 'is-error';
+                        let getdatabefore = axios.interceptors.request.use((config) => {
+                            vm.ajaxStatus = 'is-loading';
+                            return config;
                         });
+
+                        let getdata = axios.get(apiurl_2)
+                            .then((response) => {
+                                vm.dataList = response.data;
+                                vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus =
+                                    'is-nothing';
+                            })
+                            .catch((error) => {
+                                vm.ajaxStatus = 'is-error';
+                            });
+
                     }
 
-                    getTownData();
+                    getTownData(this);
                     getAQIdata(this);
 
                     setInterval(function () {
