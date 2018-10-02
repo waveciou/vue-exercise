@@ -127,6 +127,10 @@
                 },
                 created() {
 
+                    const apiurl_1 =
+                            'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
+                    const apiurl_2 = 'https://opendata2.epa.gov.tw/AQI.json';
+
                     function getTownData(vm) {
                         let gettown = axios.get('data/town.json').then((data) => {
                             vm.selectList = data.data;
@@ -135,20 +139,17 @@
 
                     function getAQIdata(vm) {
 
-                        const apiurl_1 =
-                            'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
-                        const apiurl_2 = 'https://opendata2.epa.gov.tw/AQI.json';
-
-                        let getdatabefore = axios.interceptors.request.use((config) => {
+                        let dataInterceptor = axios.interceptors.request.use((config) => {
                             vm.ajaxStatus = 'is-loading';
                             return config;
                         });
 
-                        let getdata = axios.get(apiurl_2)
+                        axios.get(apiurl_2)
                             .then((response) => {
                                 vm.dataList = response.data;
                                 vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus =
                                     'is-nothing';
+                                axios.interceptors.request.eject(dataInterceptor);
                             })
                             .catch((error) => {
                                 vm.ajaxStatus = 'is-error';
