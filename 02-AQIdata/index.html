@@ -8,7 +8,7 @@
     <title>Vue Exercise - 02. AQI data list</title>
     <link rel="stylesheet" href="https://waveciou.github.io/resetcss/reset.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" href="css/style.min.css">
+    <link rel="stylesheet" href="./css/style.min.css">
 </head>
 
 <body>
@@ -46,18 +46,20 @@
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script>
-        (function () {
+        ;(function (axios, Vue, $) {
             const app = new Vue({
                 el: '#aqidatalist',
                 data: {
+                    api: 'https://json2jsonp.com/?url=https://pm25.lass-net.org/data/last-all-epa.json&callback=cbfunc',
                     selectList: [],
                     selectValue: '全部',
                     dataList: [],
                     ajaxStatus: ''
                 },
                 methods: {
-                    setLevelClass: function (item) {
+                    setLevelClass: (item)=> {
                         let value = item.AQI;
                         let number = Math.floor(Number(value) / 50);
                         let className = '';
@@ -91,6 +93,34 @@
                                 break;
                         }
                         return className;
+                    },
+                    getAQIdata() {
+                        // let dataInterceptor = axios.interceptors.request.use((config) => {
+                        //     this.ajaxStatus = 'is-loading';
+                        //     return config;
+                        // });
+
+                        $.ajax({
+                            url: this.api,
+                            type: 'get',
+                            dataType: 'jsonp',
+                            beforeSend: ()=>{
+                                this.ajaxStatus = 'is-loading';
+                            },
+                            success: (response)=> {
+                                this.dataList = response.feeds;
+                                this.dataList.length ? this.ajaxStatus = 'is-success' : this.ajaxStatus = 'is-nothing';
+                                // axios.interceptors.request.eject(dataInterceptor);
+                            },
+                            error: (xhr, ajaxOptions, thrownError)=> {
+                                this.ajaxStatus = 'is-error';
+                            }
+                        });
+                    },
+                    getTownData() {
+                        let gettown = axios.get('data/town.json').then((data) => {
+                            this.selectList = data.data;
+                        });
                     }
                 },
                 computed: {
@@ -114,8 +144,7 @@
                             });
                         }
 
-                        newDataList.length ? app.ajaxStatus = 'is-success' : app.ajaxStatus =
-                            'is-nothing';
+                        newDataList.length ? app.ajaxStatus = 'is-success' : app.ajaxStatus = 'is-nothing';
 
                         //依照AQI指數排列
                         newDataList.sort(function (a, b) {
@@ -125,48 +154,15 @@
                         return newDataList
                     }
                 },
-                created() {
-
-                    const apiurl_1 =
-                            'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json';
-                    const apiurl_2 = 'https://opendata2.epa.gov.tw/AQI.json';
-
-                    function getTownData(vm) {
-                        let gettown = axios.get('data/town.json').then((data) => {
-                            vm.selectList = data.data;
-                        });
-                    }
-
-                    function getAQIdata(vm) {
-
-                        let dataInterceptor = axios.interceptors.request.use((config) => {
-                            vm.ajaxStatus = 'is-loading';
-                            return config;
-                        });
-
-                        axios.get(apiurl_2)
-                            .then((response) => {
-                                vm.dataList = response.data;
-                                vm.dataList.length ? vm.ajaxStatus = 'is-success' : vm.ajaxStatus =
-                                    'is-nothing';
-                                axios.interceptors.request.eject(dataInterceptor);
-                            })
-                            .catch((error) => {
-                                vm.ajaxStatus = 'is-error';
-                            });
-
-                    }
-
-                    getTownData(this);
-                    getAQIdata(this);
-
-                    setInterval(function () {
-                        getAQIdata(this);
+                mounted() {
+                    this.getTownData();
+                    this.getAQIdata();
+                    setInterval(()=> {
+                        this.getAQIdata();
                     }, 30000);
                 }
-            })
-
-        })()
+            });
+        })(axios, Vue, $)
 
     </script>
 
