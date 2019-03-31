@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-hant-tw">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue Exercise - 04. Calendar</title>
+    <link rel="stylesheet" href="https://waveciou.github.io/resetcss/reset.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+    <link rel="stylesheet" href="./css/style.min.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <div id="app">
+            <h1>CALENDAR</h1>
+            <div class="calendar">
+                <div class="calendar__header">
+                    <a href="javascript:;" class="arrow-btn btn-prevmonth" @click.prevent="changeMonth(false)">Prev</a>
+                    <div class="calendar__title" @click.prevent="backToToday()">
+                        <span class="caption-year">{{current.year}} 年</span>
+                        <span class="caption-month">{{convertTwoDigits}} 月</span>
+                    </div>
+                    <a href="javascript:;" class="arrow-btn btn-nextmonth" @click.prevent="changeMonth(true)">Next</a>
+                </div>
+                <div class="calendar__body">
+                    <ul class="calendar__heading">
+                        <li v-for="item in heading">
+                            <div class="calendar__item">{{item}}</div>
+                        </li>
+                    </ul>
+                    <ul class="calendar__content">
+                        <li v-for="item in buildCalendar">
+                            <a href="javascript:;" class="calendar__item" :class="{'is-today': item.today === true, 'current': item.current === true}" @click.prevent="getDateData(item)">{{item.number}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="todolist">
+                <div class="todolist__header">
+                    <span class="caption-year">{{current.year}}年</span>
+                    <span class="caption-month">{{current.month}}月</span>
+                    <span class="caption-date">{{current.date}}日</span>
+                </div>
+                <div class="todolist__body"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
+    <script src="./js/calendar.js"></script>
+</body>
+
+</html>
