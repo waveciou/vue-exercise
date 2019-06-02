@@ -15,7 +15,7 @@ body {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     -o-overflow-scrolling: touch;
-    background-color: $color-gray-dark;
+    background-color: $color-black;
     color: $color-black;
 }
 
@@ -37,7 +37,7 @@ p {
 }
 
 h1{
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: bold;
     line-height: 1.2em;
     margin: 1rem 0px;

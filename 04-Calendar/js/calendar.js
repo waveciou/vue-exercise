@@ -13,8 +13,7 @@
                 month: 0,
                 date: 0
             },
-            heading: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
-            calendar: []
+            heading: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
         },
         methods: {
             changeMonth(isNext) {
@@ -52,12 +51,11 @@
             getToday() {
                 this.today.year = moment().year();
                 this.today.month = moment().month() + 1;
-                this.today.date = moment().daysInMonth();
+                this.today.date = moment().date();
             }
         },
         computed: {
             buildCalendar() {
-                this.calendar.length = 0;
                 let myYears = this.current.year;
                 let myMonth = this.current.month;
                 let myDate = this.current.date;
@@ -125,10 +123,8 @@
             }
         },
         created() {
-            this.current.year = moment().year();
-            this.current.month = moment().month() + 1;
-            this.current.date = moment().daysInMonth();
             this.getToday();
+            this.backToToday();
         },
         mounted() {}
     })
