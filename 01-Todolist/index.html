@@ -13,10 +13,8 @@
 </head>
 
 <body>
-
     <div class="wrap">
         <div id="todolist">
-
             <div class="row todolist-title">
                 <h1>TODOLIST</h1>
                 <div class="fieldset">
@@ -28,13 +26,16 @@
             <div class="navtab" v-if="todoList.length > 0">
                 <ul class="navtab-list">
                     <li class="navtab-item">
-                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'all'}" @click="visibility = 'all'">全部</a>
+                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'all'}"
+                            @click="visibility = 'all'">全部</a>
                     </li>
                     <li class="navtab-item">
-                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'active'}" @click="visibility = 'active'">未完成</a>
+                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'active'}"
+                            @click="visibility = 'active'">未完成</a>
                     </li>
                     <li class="navtab-item">
-                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'complete'}" @click="visibility = 'complete'">已完成</a>
+                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'complete'}"
+                            @click="visibility = 'complete'">已完成</a>
                     </li>
                 </ul>
                 <ul class="todolist-list">
@@ -44,13 +45,17 @@
                                 <input type="checkbox" :id="item.id" v-model="item.complete">
                                 <label :for="item.id">{{ item.title }}</label>
                             </div>
-                            <button type="button" class="btn btn-remove fas fa-times" @click="removeTodoItem(item, key)"></button>
+                            <button type="button" class="btn btn-remove fas fa-times"
+                                @click="removeTodoItem(item, key)"></button>
                         </div>
                         <div class="d-item item-edit" v-if="item.id === cacheTodoItem.id">
-                            <input type="text" v-model="cacheTodoTitle" @keyup.esc="cancelEditTodoItem()" @keyup.enter="doneEditTodoItem(item)">
+                            <input type="text" v-model="cacheTodoTitle" @keyup.esc="cancelEditTodoItem()"
+                                @keyup.enter="doneEditTodoItem(item)">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-check fas fa-check" @click="doneEditTodoItem(item)"></button>
-                                <button type="button" class="btn btn-cancel fas fa-times" @click="cancelEditTodoItem()"></button>
+                                <button type="button" class="btn btn-check fas fa-check"
+                                    @click="doneEditTodoItem(item)"></button>
+                                <button type="button" class="btn btn-cancel fas fa-times"
+                                    @click="cancelEditTodoItem()"></button>
                             </div>
                         </div>
                     </li>
@@ -67,128 +72,7 @@
 
     <!--Vue-->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
-    <script>
-        (function (Vue) {
-
-            const app = new Vue({
-                el: '#todolist',
-                data: {
-                    todoList: [
-                        // {
-                        //     title: '測試01',
-                        //     id: '001',
-                        //     complete: false
-                        // }
-                    ],
-                    newTodoItem: '',
-                    visibility: 'all',
-                    cacheTodoItem: {},
-                    cacheTodoTitle: '',
-                    pushLocalStorage: function(){
-                        /* 把資料 push 到 localStorage */
-                        localStorage.setItem('todoList', JSON.stringify(this.todoList));
-                    }
-                },
-                methods: {
-                    addTodoItem: function () {
-                        /* 新增待辦資料 */
-                        let value = this.newTodoItem.trim();
-                        let timestamp = Math.floor(Date.now());
-                        if (!value) {
-                            return false
-                        }
-                        this.todoList.push({
-                            title: value,
-                            id: timestamp,
-                            complete: false
-                        });
-                        this.newTodoItem = '';
-                        this.pushLocalStorage();
-                    },
-                    removeTodoItem: function (todoItem) {
-                        /* 刪除待辦資料 */
-                        let newIndex = '';
-                        this.todoList.forEach((item, index) => {
-                            if (todoItem.id === item.id) {
-                                newIndex = index;
-                            }
-                        });
-                        this.todoList.splice(newIndex, 1);
-                        this.pushLocalStorage();
-                    },
-                    editTodoItem: function (item) {
-                        /* 編輯待辦資料 */
-                        this.cacheTodoItem = item;
-                        this.cacheTodoTitle = item.title;
-                        this.pushLocalStorage();
-                    },
-                    cancelEditTodoItem: function () {
-                        /* 取消編輯待辦資料 */
-                        this.cacheTodoItem = {};
-                        this.cacheTodoTitle = '';
-                    },
-                    doneEditTodoItem: function (item) {
-                        /* 完成編輯待辦資料 */
-                        if (!this.cacheTodoTitle.trim()) {
-                            return false
-                        }
-                        item.title = this.cacheTodoTitle.trim();
-                        this.cacheTodoItem = {};
-                        this.cacheTodoTitle = '';
-                    },
-                    removeAllTodoItem: function () {
-                        /* 刪除所有待辦資料 */
-                        this.todoList = [];
-                        this.pushLocalStorage();
-                        localStorage.clear();
-                        return false
-                    }
-                },
-                computed: {
-                    filterTodoList: function () {
-                        /* 頁籤的切換 */
-                        if (this.visibility === 'all') {
-                            return this.todoList
-                        } else if (this.visibility === 'active') {
-                            let newTodoList = [];
-                            this.todoList.forEach(function (item) {
-                                if (item.complete === false) {
-                                    newTodoList.push(item);
-                                }
-                            });
-                            return newTodoList
-                        } else if (this.visibility === 'complete') {
-                            let newTodoList = [];
-                            this.todoList.forEach(function (item) {
-                                if (item.complete === true) {
-                                    newTodoList.push(item);
-                                }
-                            });
-                            return newTodoList
-                        }
-                        return []
-                    },
-                    filterActiveTodoList: function () {
-                        /* 篩選出未完成的項目以及數量 */
-                        let newTodoList = [];
-                        this.todoList.forEach(function (item) {
-                            if (item.complete === false) {
-                                newTodoList.push(item);
-                            }
-                        });
-                        return newTodoList.length
-                    }
-                },
-                created() {
-                    /* 載入 localStorage 的資料 */
-                    this.todoList = [];
-                    this.todoList = JSON.parse(localStorage.getItem('todoList')) || [];
-                }
-            })
-
-        })(Vue)
-
-    </script>
+    <script src="js/todolist.js"></script>
 </body>
 
 </html>
