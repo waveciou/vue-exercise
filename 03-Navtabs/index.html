@@ -2,42 +2,41 @@
 <html lang="zh-hant-tw">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Vue Exercise - 03. Navtabs</title>
-    <link rel="stylesheet" href="https://waveciou.github.io/css-tool/reset.min.css">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Exercise - 03. Navtabs</title>
+  <link rel="stylesheet" href="https://waveciou.github.io/css-tool/reset.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="wrap">
-        <div id="app">
-            <div class="navtabs" :style="{height: this.tabsHeight + 'px'}">
-                <ul class="mobileItem-list">
-                    <li v-for="(item, index) in tabs">
-                        <a href="javascript:;" class="navtabs-btn mobile-btn" :class="{current: index === tabsIndex}"
-                            @mousedown.prevent @click="ctrlNavtabs($event, index)"
-                            @focus="ctrlNavtabs($event, index)">{{item.title}}</a>
-                    </li>
-                </ul>
-                <ul class="navtabs-list">
-                    <li v-for="(item, index) in tabs">
-                        <a href="javascript:;" class="navtabs-btn" :class="{current: index === tabsIndex}"
-                            @mousedown.prevent @click="ctrlNavtabs($event, index)"
-                            @focus="ctrlNavtabs($event, index)">{{item.title}}</a>
-                        <div class="navtabs-content" v-if="index === tabsIndex" v-html="item.content"></div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <h2>訓儉示康</h2>
-        <p>吾本寒家，世以清白相承。吾性不喜華靡，自為乳兒，長者加以金銀華美之服，輒羞赧棄去之。二十忝科名，聞喜宴獨不戴花。同年曰：「君賜不可違也。」乃簪一花。平生衣取蔽寒，食取充腹；亦不敢服垢弊以矯俗干名，但順吾性而已。</p>
-        <p>眾人皆以奢靡為榮，吾心獨以儉素為美。人皆嗤吾固陋，吾不以為病。應之曰：孔子稱「與其不遜也寧固」；又曰「以約失之者鮮矣」；又曰「士志於道，而恥惡衣惡食者，未足與議也。」古人以儉為美德，今人乃以儉相詬病。嘻，異哉！</p>
+  <div class="wrap">
+    <div id="app">
+      <div class="navtabs" :style="{height: this.tabsHeight + 'px'}">
+        <ul class="mobileItem-list">
+          <li v-for="(item, index) in tabs">
+            <a href="javascript:;" class="navtabs-btn mobile-btn" :class="{current: index === tabsIndex}"
+              @mousedown.prevent @click="ctrlNavtabs($event, index)"
+              @focus="ctrlNavtabs($event, index)">{{item.title}}</a>
+          </li>
+        </ul>
+        <ul class="navtabs-list">
+          <li v-for="(item, index) in tabs">
+            <a href="javascript:;" class="navtabs-btn" :class="{current: index === tabsIndex}" @mousedown.prevent
+              @click="ctrlNavtabs($event, index)" @focus="ctrlNavtabs($event, index)">{{item.title}}</a>
+            <div class="navtabs-content" v-if="index === tabsIndex" v-html="item.content"></div>
+          </li>
+        </ul>
+      </div>
     </div>
+    <h2>訓儉示康</h2>
+    <p>吾本寒家，世以清白相承。吾性不喜華靡，自為乳兒，長者加以金銀華美之服，輒羞赧棄去之。二十忝科名，聞喜宴獨不戴花。同年曰：「君賜不可違也。」乃簪一花。平生衣取蔽寒，食取充腹；亦不敢服垢弊以矯俗干名，但順吾性而已。</p>
+    <p>眾人皆以奢靡為榮，吾心獨以儉素為美。人皆嗤吾固陋，吾不以為病。應之曰：孔子稱「與其不遜也寧固」；又曰「以約失之者鮮矣」；又曰「士志於道，而恥惡衣惡食者，未足與議也。」古人以儉為美德，今人乃以儉相詬病。嘻，異哉！</p>
+  </div>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js'></script>
-    <script src="js/navtabs.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js'></script>
+  <script src="js/navtabs.js"></script>
 </body>
 
 </html>

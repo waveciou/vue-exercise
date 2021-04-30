@@ -2,53 +2,52 @@
 <html lang="zh-hant-tw">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Vue Exercise - 02. AQI data list</title>
-    <link rel="stylesheet" href="https://waveciou.github.io/css-tool/reset.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" href="./css/style.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Exercise - 02. AQI data list</title>
+  <link rel="stylesheet" href="https://waveciou.github.io/css-tool/reset.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="./css/style.min.css">
 </head>
 
 <body>
 
-    <div class="wrap">
-        <div id="aqidatalist">
+  <div class="wrap">
+    <div id="aqidatalist">
 
-            <h1>TAIWAN AQI DATA</h1>
+      <h1>TAIWAN AQI DATA</h1>
 
-            <div class="fieldset">
-                <select id="data-select" v-model="selectValue">
-                    <option v-for="(item, key) in selectList" :value="item.value">{{ item.name }}</option>
-                </select>
+      <div class="fieldset">
+        <select id="data-select" v-model="selectValue">
+          <option v-for="(item, key) in selectList" :value="item.value">{{ item.name }}</option>
+        </select>
+      </div>
+
+      <p class="message is-nothing" v-if="ajaxStatus === 'is-nothing'">無資料</p>
+      <p class="message is-loading" v-if="ajaxStatus === 'is-loading'">資料載入中....</p>
+      <p class="message is-error" v-if="ajaxStatus === 'is-error'">資料載入失敗</p>
+
+      <ul id="data-list" v-if="ajaxStatus === 'is-success'">
+        <li v-for="(item, key) in filterDataList">
+          <div class="item" :class="setLevelClass(item)">
+            <div class="item__wrap">
+              <div class="item__name">
+                <span>{{ item.County }}</span>{{ item.SiteName }}
+              </div>
+              <div class="item__aqi">{{ item.AQI }}</div>
             </div>
+          </div>
+        </li>
+      </ul>
 
-            <p class="message is-nothing" v-if="ajaxStatus === 'is-nothing'">無資料</p>
-            <p class="message is-loading" v-if="ajaxStatus === 'is-loading'">資料載入中....</p>
-            <p class="message is-error" v-if="ajaxStatus === 'is-error'">資料載入失敗</p>
-
-            <ul id="data-list" v-if="ajaxStatus === 'is-success'">
-                <li v-for="(item, key) in filterDataList">
-                    <div class="item" :class="setLevelClass(item)">
-                        <div class="item__wrap">
-                            <div class="item__name">
-                                <span>{{ item.County }}</span>{{ item.SiteName }}
-                            </div>
-                            <div class="item__aqi">{{ item.AQI }}</div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-
-        </div>
     </div>
+  </div>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src="js/script.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+  <script src="js/script.js"></script>
 
 </body>
-
 </html>

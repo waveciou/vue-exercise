@@ -2,77 +2,73 @@
 <html lang="zh-hant-tw">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Vue Exercise - 01. Todolist</title>
-    <link rel="stylesheet" href="https://waveciou.github.io/css-tool/reset.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' />
-    <link rel="stylesheet" href="./css/style.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Exercise - 01. Todolist</title>
+  <link rel="stylesheet" href="https://waveciou.github.io/css-tool/reset.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' />
+  <link rel="stylesheet" href="./css/style.min.css">
 </head>
 
 <body>
-    <div class="wrap">
-        <div id="todolist">
-            <div class="row todolist-title">
-                <h1>TODOLIST</h1>
-                <div class="fieldset">
-                    <input type="text" placeholder="請輸入待辦事項" v-model="newTodoItem" @keyup.enter="addTodoItem">
-                    <button type="button" class="btn btn-add fas fa-plus" @click="addTodoItem">新增</button>
-                </div>
-            </div>
-
-            <div class="navtab" v-if="todoList.length > 0">
-                <ul class="navtab-list">
-                    <li class="navtab-item">
-                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'all'}"
-                            @click="visibility = 'all'">全部</a>
-                    </li>
-                    <li class="navtab-item">
-                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'active'}"
-                            @click="visibility = 'active'">未完成</a>
-                    </li>
-                    <li class="navtab-item">
-                        <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'complete'}"
-                            @click="visibility = 'complete'">已完成</a>
-                    </li>
-                </ul>
-                <ul class="todolist-list">
-                    <li class="todolist-item" v-for="(item, key) in filterTodoList" @dblclick="editTodoItem(item)">
-                        <div class="d-item item-dem" v-if="item.id !== cacheTodoItem.id">
-                            <div class="fieldset">
-                                <input type="checkbox" :id="item.id" v-model="item.complete">
-                                <label :for="item.id">{{ item.title }}</label>
-                            </div>
-                            <button type="button" class="btn btn-remove fas fa-times"
-                                @click="removeTodoItem(item, key)"></button>
-                        </div>
-                        <div class="d-item item-edit" v-if="item.id === cacheTodoItem.id">
-                            <input type="text" v-model="cacheTodoTitle" @keyup.esc="cancelEditTodoItem()"
-                                @keyup.enter="doneEditTodoItem(item)">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-check fas fa-check"
-                                    @click="doneEditTodoItem(item)"></button>
-                                <button type="button" class="btn btn-cancel fas fa-times"
-                                    @click="cancelEditTodoItem()"></button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="row todolist-underrow" v-if="todoList.length > 0">
-                <span>還有 {{ filterActiveTodoList }} 筆任務未完成</span>
-                <a href="javascript:;" @click="removeAllTodoItem()">清除全部</a>
-            </div>
-
+  <div class="wrap">
+    <div id="todolist">
+      <div class="row todolist-title">
+        <h1>TODOLIST</h1>
+        <div class="fieldset">
+          <input type="text" placeholder="請輸入待辦事項" v-model="newTodoItem" @keyup.enter="addTodoItem">
+          <button type="button" class="btn btn-add fas fa-plus" @click="addTodoItem">新增</button>
         </div>
-    </div>
+      </div>
 
-    <!--Vue-->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
-    <script src="js/todolist.js"></script>
+      <div class="navtab" v-if="todoList.length > 0">
+        <ul class="navtab-list">
+          <li class="navtab-item">
+            <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'all'}"
+              @click="visibility = 'all'">全部</a>
+          </li>
+          <li class="navtab-item">
+            <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'active'}"
+              @click="visibility = 'active'">未完成</a>
+          </li>
+          <li class="navtab-item">
+            <a href="javascript:;" class="navtab-btn" :class="{current: visibility === 'complete'}"
+              @click="visibility = 'complete'">已完成</a>
+          </li>
+        </ul>
+        <ul class="todolist-list">
+          <li class="todolist-item" v-for="(item, key) in filterTodoList" @dblclick="editTodoItem(item)">
+            <div class="d-item item-dem" v-if="item.id !== cacheTodoItem.id">
+              <div class="fieldset">
+                <input type="checkbox" :id="item.id" v-model="item.complete">
+                <label :for="item.id">{{ item.title }}</label>
+              </div>
+              <button type="button" class="btn btn-remove fas fa-times" @click="removeTodoItem(item, key)"></button>
+            </div>
+            <div class="d-item item-edit" v-if="item.id === cacheTodoItem.id">
+              <input type="text" v-model="cacheTodoTitle" @keyup.esc="cancelEditTodoItem()"
+                @keyup.enter="doneEditTodoItem(item)">
+              <div class="btn-group">
+                <button type="button" class="btn btn-check fas fa-check" @click="doneEditTodoItem(item)"></button>
+                <button type="button" class="btn btn-cancel fas fa-times" @click="cancelEditTodoItem()"></button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row todolist-underrow" v-if="todoList.length > 0">
+        <span>還有 {{ filterActiveTodoList }} 筆任務未完成</span>
+        <a href="javascript:;" @click="removeAllTodoItem()">清除全部</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
+  <script src="js/todolist.js"></script>
 </body>
 
 </html>

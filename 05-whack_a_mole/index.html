@@ -2,35 +2,38 @@
 <html lang="zh-hant-tw">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Vue Exercise - 05. WHACK A RABBIT</title>
-    <link rel="stylesheet" href="https://waveciou.github.io/css-tool/reset.min.css">
-    <link rel="stylesheet" href="css/style.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Exercise - 05. WHACK A RABBIT</title>
+  <link rel="stylesheet" href="https://waveciou.github.io/css-tool/reset.min.css">
+  <link rel="stylesheet" href="css/style.min.css">
 </head>
-<body>
-    <div id="app">
-        <div class="wrap">
-            <div class="ctrlbar">
-                <div class="title">
-                    <h1 class="caption">WHACK A RABBIT</h1>
-                </div>
-                <div class="toolbar">
-                    <div class="toolbar__item time">TIME: {{time}}</div>
-                    <div class="toolbar__item score">SCORE: {{score}}</div>
-                </div>
-                <a href="javascript:;" @click="gameStart()" :class="{'is-disabled': gameover === false}" class="start-btn">START!!</a>
-            </div>
-            <div id="game">
-                <div v-for="(item, index) in holeNumber" class="hole" :class="{'is-open': index + 1 === currentHole}">
-                    <div class="rabbit" @click="getRabbit($event)"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js'></script>
-    <script src="js/script.js"></script>
+<body>
+  <div id="app">
+    <div class="wrap">
+      <div class="ctrlbar">
+        <div class="title">
+          <h1 class="caption">WHACK A RABBIT</h1>
+        </div>
+        <div class="toolbar">
+          <div class="toolbar__item time">TIME: {{time}}</div>
+          <div class="toolbar__item score">SCORE: {{score}}</div>
+        </div>
+        <a href="javascript:;" @click="gameStart()" :class="{'is-disabled': gameover === false}"
+          class="start-btn">START!!</a>
+      </div>
+      <div id="game">
+        <div v-for="(item, index) in holeNumber" class="hole" :class="{'is-open': index + 1 === currentHole}">
+          <div class="rabbit" @click="getRabbit($event)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js'></script>
+  <script src="js/script.js"></script>
 </body>
+
 </html>

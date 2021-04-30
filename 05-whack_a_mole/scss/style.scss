@@ -3,161 +3,164 @@
 @import url('https://fonts.googleapis.com/css?family=Gochi+Hand&display=swap');
 
 @mixin fontfamily {
-    font-family: 'Gochi Hand', cursive;
-    line-height: 1.4em;
+  font-family: 'Gochi Hand', cursive;
+  line-height: 1.4em;
 }
 
 body {
-    font-size: 16px;
-    line-height: 1.4em;
-    letter-spacing: 0.5px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    -o-overflow-scrolling: touch;
-    background-color: #fff8b0;
-    color: #422016;
+  font-size: 16px;
+  line-height: 1.4em;
+  letter-spacing: 0.5px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -o-overflow-scrolling: touch;
+  background-color: #fff8b0;
+  color: #422016;
 }
 
 .wrap {
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
 }
 
 #game {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .hole {
+    width: 33.33%;
+    height: 0px;
+    padding-bottom: 40%;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      width: 100%;
+      height: 0px;
+      padding-bottom: 36%;
+      display: block;
+      position: absolute;
+      left: 0px;
+      bottom: 0px;
+
+      background: {
+        image: url('../img/soil.png');
+        position: center;
+        repeat: no-repeat;
+        size: contain;
+      }
+    }
+
+    &.is-open {
+      .rabbit {
+        top: 0%;
+        opacity: 1;
+      }
+    }
+  }
+
+  .rabbit {
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
+    height: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0px;
 
-    .hole {
-        width: 33.33%;
-        height: 0px;
-        padding-bottom: 40%;
-        margin-bottom: 10px;
-        position: relative;
-        overflow: hidden;
-
-        &::after {
-            content: '';
-            width: 100%;
-            height: 0px;
-            padding-bottom: 36%;
-            display: block;
-            position: absolute;
-            left: 0px;
-            bottom: 0px;
-            background: {
-                image: url('../img/soil.png');
-                position: center;
-                repeat: no-repeat;
-                size: contain;
-            }
-        }
-
-        &.is-open {
-            .rabbit {
-                top: 0%;
-                opacity: 1;
-            }
-        }
+    background: {
+      image: url('../img/rabbit.png');
+      repeat: no-repeat;
+      position: center;
+      size: contain;
     }
 
-    .rabbit {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 100%;
-        left: 0px;
-        background: {
-            image: url('../img/rabbit.png');
-            repeat: no-repeat;
-            position: center;
-            size: contain;
-        }
-        opacity: 0;
-        transition: all 0.4s;
-    }
+    opacity: 0;
+    transition: all 0.4s;
+  }
 }
 
 .ctrlbar {
-    text-align: center;
+  text-align: center;
 }
 
 .title {
-    .caption {
-        @include fontfamily();
-        font-size: 2rem;
-        color: #ea7691;
+  .caption {
+    @include fontfamily();
+    font-size: 2rem;
+    color: #ea7691;
 
-        @media screen and (min-width: 370px) {
-            font-size: 2.8rem;
-        }
-
-        @media screen and (min-width: 480px) {
-            font-size: 3.5rem;
-        }
-        
-        @media screen and (min-width: 480px) {
-            font-size: 4rem;
-        }
+    @media screen and (min-width: 370px) {
+      font-size: 2.8rem;
     }
+
+    @media screen and (min-width: 480px) {
+      font-size: 3.5rem;
+    }
+
+    @media screen and (min-width: 480px) {
+      font-size: 4rem;
+    }
+  }
 }
 
 .toolbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
 
-    @media screen and (min-width: 480px) {
-        margin-bottom: 20px;
-    }
+  @media screen and (min-width: 480px) {
+    margin-bottom: 20px;
+  }
 }
 
 .toolbar__item {
-    @include fontfamily();
-    margin: 0px 15px;
-    color: #432016;
-    font-size: 2rem;
+  @include fontfamily();
+  margin: 0px 15px;
+  color: #432016;
+  font-size: 2rem;
 
-    @media screen and (min-width: 480px) {
-        font-size: 2.3rem;
-        margin: 0px 20px;
-    }
+  @media screen and (min-width: 480px) {
+    font-size: 2.3rem;
+    margin: 0px 20px;
+  }
 }
 
 .start-btn {
-    display: inline-block;
-    padding: 10px 20px 3px;
-    @include fontfamily();
-    line-height: 1em;
-    background-color: #32b7b9;
-    color: #f9f9f9;
-    border-radius: 7px;
-    letter-spacing: 2px;
-    font-size: 1.8rem;
+  display: inline-block;
+  padding: 10px 20px 3px;
+  @include fontfamily();
+  line-height: 1em;
+  background-color: #32b7b9;
+  color: #f9f9f9;
+  border-radius: 7px;
+  letter-spacing: 2px;
+  font-size: 1.8rem;
 
-    &:active {
-        background-color: #99bfa5;
-        color: #31312a;
-    }
+  &:active {
+    background-color: #99bfa5;
+    color: #31312a;
+  }
 
-    &.is-disabled {
-        background-color: #99bfa5;
-        color: #31312a;
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
+  &.is-disabled {
+    background-color: #99bfa5;
+    color: #31312a;
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 
-    @media screen and (min-width: 480px) {
-        font-size: 2.3rem;
-    }
+  @media screen and (min-width: 480px) {
+    font-size: 2.3rem;
+  }
 
-    @media screen and (min-width: 1025px) {
-        &:hover {
-            background-color: #99bfa5;
-            color: #31312a;
-        }
+  @media screen and (min-width: 1025px) {
+    &:hover {
+      background-color: #99bfa5;
+      color: #31312a;
     }
+  }
 }
